@@ -159,6 +159,14 @@
           return ch.reject(message, true);
         });
       },
+      purge: function(queue, done) {
+        return getChannel("etc", 'createChannel', true, function(err, ch) {
+          if (closeOnErr(err)) {
+            return done(err);
+          }
+          return ch.purgeQueue(queue, done);
+        });
+      },
       initBindings: function(done) {
         return getChannel("init_bindings", 'createChannel', false, (function(_this) {
           return function(err, ch) {

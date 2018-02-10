@@ -110,6 +110,11 @@ module.exports = (config) ->
 	nack: (queue, message) ->
 		getChannel getSubscribeChannelName(queue), 'createChannel', true, (err, ch) -> ch.reject message, true
 
+	purge: (queue, done) ->
+		getChannel "etc", 'createChannel', true, (err, ch) ->
+			return done err if closeOnErr(err)
+			ch.purgeQueue queue, done
+
 	initBindings: (done) ->
 		getChannel "init_bindings", 'createChannel', false, (err, ch) =>
 			return done err if closeOnErr(err)
